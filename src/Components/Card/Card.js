@@ -1,21 +1,45 @@
 import React, { useState } from "react";
-import { CheckSquare, Clock, MoreHorizontal } from "react-feather";
+import { CheckSquare, Clock, MoreHorizontal, Trash } from "react-feather";
 
 import Dropdown from "../Dropdown/Dropdown";
 
 import "./Card.css";
 import CardInfo from "./CardInfo/CardInfo";
+import Editable from "../Editabled/Editable";
 
 function Card(props) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [values, setValues] = useState({
+    ...props.card,
+  });
 
-  const { id, title, date, tasks, labels } = props.card;
+  const { id, title,enddate, date, tasks, labels } = props.card;
+
+ 
+  const calculatePercent = () => {
+    if (!values.tasks?.length) return 0;
+    const completed = values.tasks?.filter((item) => item.completed)?.length;
+    return (completed / values.tasks?.length) * 100;
+  };
+  const removeTask = (id) => {
+    const tasks = [...values.tasks];
+
+    const tempTasks = tasks.filter((item) => item.id !== id);
+    setValues({
+      ...values,
+      tasks: tempTasks,
+    });
+  };
+  
+
 
   const formatDate = (value) => {
     if (!value) return "";
     const date = new Date(value);
     if (!date) return "";
+    const enddate = new Date(value);
+    if (!enddate) return "";
 
     const months = [
       "Jan",
@@ -31,10 +55,16 @@ function Card(props) {
       "Nov",
       "Dec",
     ];
+    
+    
 
     const day = date.getDate();
+    
     const month = months[date.getMonth()];
     return day + " " + month;
+
+
+    
   };
 
   return (
@@ -89,6 +119,14 @@ function Card(props) {
               <Clock className="card_footer_icon" />
               {formatDate(date)}
             </p>
+
+          )}
+            {enddate && (
+            <p className="card_footer_item">
+              <Clock className="card_footer_icon" />
+              {formatDate(enddate)}
+            </p>
+
           )}
           {tasks && tasks?.length > 0 && (
             <p className="card_footer_item">
@@ -97,6 +135,9 @@ function Card(props) {
             </p>
           )}
         </div>
+             
+       
+      
       </div>
     </>
   );
