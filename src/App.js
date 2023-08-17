@@ -15,7 +15,7 @@ function App() {
     cid: "",
   });
 
-  const addboardHandler = (name) => {
+  const addboardHan = (name) => {
     const tempBoards = [...boards];
     tempBoards.push({
       id: Date.now() + Math.random() * 2,
@@ -123,7 +123,7 @@ function App() {
   return (
     <div className="app">
       <div className="app_nav">
-        <h1>Kanban Board</h1>
+        <h1>Reliance Project Management</h1>
       </div>
       <div className="app_boards_container">
         <div className="app_boards">
@@ -143,10 +143,10 @@ function App() {
             <Editable
               displayClass="app_boards_add-board"
               editClass="app_boards_add-board_edit"
-              placeholder="Enter Board Name"
-              text="Add Board"
-              buttonText="Add Board"
-              onSubmit={addboardHandler}
+              placeholder="Enter Project Name"
+              text="Add Project"
+              buttonText="Add Project"
+              onSubmit={addboardHan}
             />
           </div>
         </div>

@@ -106,6 +106,16 @@ function CardInfo(props) {
     setValues({
       ...values,
       date,
+    
+    });
+  };
+  const updateEndDate = (enddate) => {
+    if (!enddate) return;
+
+    setValues({
+      ...values,
+      enddate,
+    
     });
   };
 
@@ -119,12 +129,12 @@ function CardInfo(props) {
         <div className="cardinfo_box">
           <div className="cardinfo_box_title">
             <Type />
-            <p>Title</p>
+            <p>Task Title</p>
           </div>
           <Editable
             defaultValue={values.title}
             text={values.title}
-            placeholder="Enter Title"
+            placeholder="Enter Task Title"
             onSubmit={updateTitle}
           />
         </div>
@@ -132,12 +142,12 @@ function CardInfo(props) {
         <div className="cardinfo_box">
           <div className="cardinfo_box_title">
             <List />
-            <p>Description</p>
+            <p> Task Description</p>
           </div>
           <Editable
             defaultValue={values.desc}
             text={values.desc || "Add a Description"}
-            placeholder="Enter description"
+            placeholder="Enter Task description"
             onSubmit={updateDesc}
           />
         </div>
@@ -145,7 +155,7 @@ function CardInfo(props) {
         <div className="cardinfo_box">
           <div className="cardinfo_box_title">
             <Calendar />
-            <p>Date</p>
+            <p>Task Start Date</p>
           </div>
           <input
             type="date"
@@ -154,11 +164,23 @@ function CardInfo(props) {
             onChange={(event) => updateDate(event.target.value)}
           />
         </div>
+        <div className="cardinfo_box">
+          <div className="cardinfo_box_title">
+            <Calendar />
+            <p>Task End Date</p>
+          </div>
+          <input
+            type="date"
+            defaultValue={values.enddate}
+            min={new Date().toISOString().substr(0, 10)}
+            onChange={(event) => updateEndDate(event.target.value)}
+          />
+        </div>
 
         <div className="cardinfo_box">
           <div className="cardinfo_box_title">
             <Tag />
-            <p>Labels</p>
+            <p>Priority Labels</p>
           </div>
           <div className="cardinfo_box_labels">
             {values.labels?.map((item, index) => (
@@ -203,7 +225,8 @@ function CardInfo(props) {
                 backgroundColor: calculatePercent() === 100 ? "limegreen" : "",
               }}
             />
-          </div>
+            
+          </div>  
           <div className="cardinfo_box_task_list">
             {values.tasks?.map((item) => (
               <div key={item.id} className="cardinfo_box_task_checkbox">
